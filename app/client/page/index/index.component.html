@@ -1,0 +1,4 @@
+<input type="text" id="main-input" [(ngModel)]="keyword" name="keyword" (keyup.enter)="onClickMe()" [ngClass]="result.length?'active':''">
+<ul *ngIf="result.length">
+	<li *ngFor="let d of result;" class="flipInX">{{d.title}}<br>magnet:?xt=urn:btih:{{d.hash}}</li>
+</ul>

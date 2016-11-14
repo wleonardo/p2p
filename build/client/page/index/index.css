@@ -1,0 +1,21 @@
+body {
+  background-image: url("app/client//lib/img/back.jpg");
+  background-size: cover;
+  background-repeat: no-repeat; }
+  body a {
+    font-size: 30px; }
+
+.main-input {
+  border: 0;
+  background-color: transparent;
+  border-bottom: 1px solid #ccc;
+  width: 300px;
+  font-size: 20px;
+  padding: 15px;
+  color: #fff;
+  display: block;
+  text-align: center;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  margin-left: -150px; }

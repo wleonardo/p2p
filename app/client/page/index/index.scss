@@ -1,0 +1,49 @@
+@import '../base/base.scss';
+#contain {
+    background-image: url($basePath + 'lib/img/back.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    background-position: center;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0;
+}
+
+#main-input {
+    border: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border-bottom: 1px solid #ccc;
+    width: 300px;
+    font-size: 20px;
+    padding: 15px;
+    color: #fff;
+    display: block;
+    text-align: center;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin-left: -150px;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    &.active {
+        top: 70px;
+    }
+    &:focus {
+        outline: none;
+    }
+}
+
+ul {
+    list-style: none;
+    width: 500px;
+    display: block;
+    margin: 150px auto 0;
+    li {
+        background-color: #fff;
+        margin-bottom: 5px;
+        height: 50px;
+    }
+}
