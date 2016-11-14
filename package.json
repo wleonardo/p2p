@@ -31,6 +31,7 @@
     "core-js": "^2.4.1",
     "gulp-connect": "^5.0.0",
     "gulp-live-server": "^0.0.30",
+    "koa": "^1.2.4",
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
     "mysql": "^2.12.0",
