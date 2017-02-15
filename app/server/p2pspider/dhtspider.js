@@ -137,7 +137,6 @@ DHTSpider.prototype.onAnnouncePeerRequest = function(msg, rinfo) {
             id: utils.genNeighborID(nid, this.ktable.nid)
         }
     }, rinfo);
-    console.log(infohash);
     this.btclient.add({address: rinfo.address, port: port}, infohash);
 };
 
