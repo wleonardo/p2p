@@ -199,7 +199,7 @@ DHTSpider.prototype.start = function() {
             this.joinDHTNetwork();
             this.makeNeighbours();
         }
-    }.bind(this), 1000);
+    }.bind(this), 3000);
 };
 
 exports.start = function(options) {
