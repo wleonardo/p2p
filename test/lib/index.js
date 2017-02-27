@@ -25,6 +25,7 @@ P2PSpider.prototype.ignore = function (ignore) {
 P2PSpider.prototype.listen = function (port, address) {
     this.port = port || 6881;
     this.address = address || '0.0.0.0';
+
     var btclient = new BTClient({
         timeout: this.options.timeout || 1000 * 10,
         ignore: this._ignore,
@@ -32,7 +33,6 @@ P2PSpider.prototype.listen = function (port, address) {
     });
 
     btclient.on('complete', function(metadata, infohash, rinfo) {
-        console.log("metadata-->");
         var _metadata = metadata;
         _metadata.address = rinfo.address;
         _metadata.port = rinfo.port;

@@ -1,11 +1,23 @@
 const resourceModel = require('../model/resource.model.js')();
 
+function isSingleFile(data) {
+  return data.info.files ? false : true;
+}
 module.exports = function(data) {
-  var param = {
-    title: data.info.name.toString(),
-    hash: data.infohash,
-    files: Buffer.from(data.info.files),
-    pieces: data.info.pieces
-  };
-  resourceModel.create(param);
+  try {
+    var btInfo = {
+      title: data.info.name.toString('utf-8'),
+      hash: data.infohash
+    }
+    if (isSingleFile(data)) {
+      btInfo.fileLength = data.info.length;
+    } else {
+      let fileLength = 0;
+      data.info.files.forEach(function(file) {
+        fileLength += file.length;
+      })
+      btInfo.fileLength = fileLength;
+    }
+    resourceModel.create(btInfo);
+  } catch (e) {}
 }

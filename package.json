@@ -11,6 +11,8 @@
     "url": "https://github.com/Fuck-You-GFW/p2pspider/issues"
   },
   "scripts": {
+    "dev": "export NODE_ENV=dev && node ./app/server/server.js",
+    "prod": "export NODE_ENV=prod && forever start --uid ${PWD##*/} --append -c \"node \" ./app/server/server.js",
     "start": "webpack-dev-server --hot --inline"
   },
   "dependencies": {

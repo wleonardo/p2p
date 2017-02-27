@@ -9,8 +9,10 @@ module.exports = function() {
       type: Sequelize.STRING,
       unique: true
     },
-    pieces: Sequelize.STRING.BINARY,
-    files: Sequelize.STRING.BINARY
+    fileLength: {
+      type: Sequelize.BIGINT,
+      field: 'file_length'
+    }
   }, {
     freezeTableName: true,
     underscored: true,
