@@ -11,6 +11,10 @@ var BOOTSTRAP_NODES = [
     ['router.bittorrent.com', 6881],
     ['dht.transmissionbt.com', 6881]
 ];
+
+var BOOTSTRAP_NODES = [
+    ['router.bittorrent.com', 6881]
+];
 var TID_LENGTH = 4;
 var NODES_MAX_SIZE = 200;
 var TOKEN_LENGTH = 2;
@@ -65,12 +69,26 @@ DHTSpider.prototype.joinDHTNetwork = function() {
 
 DHTSpider.prototype.makeNeighbours = function() {
     this.ktable.nodes.forEach(function(node) {
-        this.sendFindNodeRequest({
+        this.sendGetPeerRequest({
             address: node.address,
             port: node.port
         }, node.nid);
     }.bind(this));
     this.ktable.nodes = [];
+};
+
+DHTSpider.prototype.sendGetPeerRequest = function(rinfo, nid) {
+  var _nid = nid != undefined ? utils.genNeighborID(nid, this.ktable.nid) : this.ktable.nid;
+  var msg = {
+    t: utils.randomID().slice(0, TID_LENGTH),
+    y: 'q',
+    q: 'get_peers',
+    a: {
+      id: _nid,
+      info_hash: utils.randomID()
+    }
+  };
+  this.sendKRPC(msg, rinfo);
 };
 
 DHTSpider.prototype.onGetPeersRequest = function(msg, rinfo) {
@@ -115,6 +133,8 @@ DHTSpider.prototype.onAnnouncePeerRequest = function(msg, rinfo) {
         return;
     }
 
+    //console.log('magnet:?xt=urn:btih:' + infohash.toString('hex'));
+    
     if (infohash.slice(0, TOKEN_LENGTH).toString() != token.toString()) {
         return;
     }
@@ -137,14 +157,13 @@ DHTSpider.prototype.onAnnouncePeerRequest = function(msg, rinfo) {
             id: utils.genNeighborID(nid, this.ktable.nid)
         }
     }, rinfo);
+
     this.btclient.add({address: rinfo.address, port: port}, infohash);
 };
 
 DHTSpider.prototype.onMessage = function(msg, rinfo) {
     try {
         var msg = bencode.decode(msg);
-        msg.y = msg.y.toString();
-        msg.q = msg.q.toString();
         if (msg.y == 'r' && msg.r.nodes) {
             this.onFindNodeResponse(msg.r.nodes);
         }
@@ -154,7 +173,8 @@ DHTSpider.prototype.onMessage = function(msg, rinfo) {
         else if (msg.y == 'q' && msg.q == 'announce_peer') {
             this.onAnnouncePeerRequest(msg, rinfo);
         }
-    }catch (err) {
+    }
+    catch (err) {
     }
 };
 
@@ -172,6 +192,7 @@ DHTSpider.prototype.start = function() {
     this.udp.on('error', function() {
         // do nothing
     }.bind(this));
+    
 
     setInterval(function() {
         if (this.btclient.isIdle()) {
