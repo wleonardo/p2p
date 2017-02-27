@@ -16,7 +16,7 @@ var BOOTSTRAP_NODES = [
     ['router.bittorrent.com', 6881]
 ];
 var TID_LENGTH = 4;
-var NODES_MAX_SIZE = 200;
+var NODES_MAX_SIZE = 100;
 var TOKEN_LENGTH = 2;
 
 var DHTSpider = function(options) {

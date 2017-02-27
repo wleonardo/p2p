@@ -13,6 +13,7 @@
   "scripts": {
     "dev": "export NODE_ENV=dev && node ./app/server/server.js",
     "prod": "export NODE_ENV=prod && forever start --uid ${PWD##*/} --append -c \"node \" ./app/server/server.js",
+    "restart": "forever restart ${PWD##*/}",
     "start": "webpack-dev-server --hot --inline"
   },
   "dependencies": {
