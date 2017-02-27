@@ -32,7 +32,7 @@ P2PSpider.prototype.listen = function (port, address) {
     });
 
     btclient.on('complete', function(metadata, infohash, rinfo) {
-        console.log("metadata-->");
+        // console.log("metadata-->");
         var _metadata = metadata;
         _metadata.address = rinfo.address;
         _metadata.port = rinfo.port;
