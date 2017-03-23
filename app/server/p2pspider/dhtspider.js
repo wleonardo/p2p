@@ -6,6 +6,7 @@ var bencode = require('bencode');
 
 var utils = require('./utils');
 var KTable = require('./ktable');
+var sendSeconds = 0;
 
 var BOOTSTRAP_NODES = [
     ['router.bittorrent.com', 6881],
@@ -16,7 +17,7 @@ var BOOTSTRAP_NODES = [
     ['router.bittorrent.com', 6881]
 ];
 var TID_LENGTH = 4;
-var NODES_MAX_SIZE = 100;
+var NODES_MAX_SIZE = 200;
 var TOKEN_LENGTH = 2;
 
 var DHTSpider = function(options) {
@@ -28,6 +29,7 @@ var DHTSpider = function(options) {
 }
 
 DHTSpider.prototype.sendKRPC = function(msg, rinfo) {
+    sendSeconds++;
     try {
         var buf = bencode.encode(msg);
     }
@@ -68,13 +70,13 @@ DHTSpider.prototype.joinDHTNetwork = function() {
 };
 
 DHTSpider.prototype.makeNeighbours = function() {
-    this.ktable.nodes.forEach(function(node) {
+    var nodes = this.ktable.nodes.splice(0, NODES_MAX_SIZE);
+    nodes.forEach(function(node) {
         this.sendGetPeerRequest({
             address: node.address,
             port: node.port
         }, node.nid);
     }.bind(this));
-    this.ktable.nodes = [];
 };
 
 DHTSpider.prototype.sendGetPeerRequest = function(rinfo, nid) {
@@ -105,6 +107,7 @@ DHTSpider.prototype.onGetPeersRequest = function(msg, rinfo) {
     catch (err) {
         return;
     }
+    // console.log(infohash.toString('hex'));
     this.sendKRPC({
         t: tid,
         y: 'r',
@@ -133,7 +136,7 @@ DHTSpider.prototype.onAnnouncePeerRequest = function(msg, rinfo) {
         return;
     }
 
-    //console.log('magnet:?xt=urn:btih:' + infohash.toString('hex'));
+    // console.log('magnet:?xt=urn:btih:' + infohash.toString('hex'));
     
     if (infohash.slice(0, TOKEN_LENGTH).toString() != token.toString()) {
         return;
@@ -198,8 +201,9 @@ DHTSpider.prototype.start = function() {
         if (this.btclient.isIdle()) {
             this.joinDHTNetwork();
             this.makeNeighbours();
+            console.log('sendSeconds:' + sendSeconds);
         }
-    }.bind(this), 3000);
+    }.bind(this), 5000);
 };
 
 exports.start = function(options) {
