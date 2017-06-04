@@ -14,7 +14,13 @@
     "dev": "export NODE_ENV=dev && node ./app/server/server.js",
     "prod": "export NODE_ENV=prod && forever start --uid ${PWD##*/} --append -c \"node \" ./app/server/server.js",
     "restart": "forever restart ${PWD##*/}",
-    "start": "webpack-dev-server --hot --inline"
+    "start": "webpack-dev-server --hot --inline",
+    "pm2-start": "export NODE_ENV=prod && pm2 start ./app/server/server.js --name=\"${PWD##*/}\" ",
+    "pm2-start-cluster": "export NODE_ENV=prod && pm2 start ./app/server/server.js --name=\"${PWD##*/}\" -i 1",
+    "pm2-reload": "export NODE_ENV=prod && pm2 reload ${PWD##*/}",
+    "pm2-restart": "export NODE_ENV=prod && pm2 restart ${PWD##*/}",
+    "pm2-stop": "export NODE_ENV=prod && pm2 stop ${PWD##*/}",
+    "pm2-delete": "export NODE_ENV=prod && pm2 delete ${PWD##*/}"
   },
   "dependencies": {
     "@angular/common": "~2.1.1",
