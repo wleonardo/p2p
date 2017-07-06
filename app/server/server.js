@@ -2,7 +2,7 @@ var koa = require('koa');
 var app = koa();
 var router = require('koa-router')();
 
-var P2PSpider = require('./p2pspider/');
+var P2PSpider = require('p2p-spider');
 var saveToMysql = require('./api/saveToMysql.js');
 
 var p2p = P2PSpider({

@@ -51,7 +51,8 @@
     "sequelize": "^3.24.8",
     "swig": "^1.4.2",
     "systemjs": "0.19.39",
-    "zone.js": "^0.6.25"
+    "zone.js": "^0.6.25",
+    "p2p-spider": "^1.0.0"
   },
   "keywords": [
     "torrent",
