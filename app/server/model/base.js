@@ -6,7 +6,7 @@ const configPath = __dirname + '/../../../config.json';
 
 var password = '';
 if (process.env.NODE_ENV == 'prod' && fs.existsSync(configPath)) {
-  const _config = fs.readFileSync(configPath ,'UTF-8');
+  const _config = JSON.parse(fs.readFileSync(configPath ,'UTF-8'));
   password = _config.mysql.password || password;
 }
 const db = {
